@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-qa
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: alex
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: qa_project
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
