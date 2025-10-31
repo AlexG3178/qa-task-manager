@@ -16,6 +16,12 @@ export class TasksService {
     return this.prisma.task.findMany();
   }
 
+  findAllByUser(userId: number) {
+  return this.prisma.task.findMany({
+    where: { userId },
+  });
+}
+
   findOne(id: number) {
     return this.prisma.task.findUnique({ where: { id } });
   }
