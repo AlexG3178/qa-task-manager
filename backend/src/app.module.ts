@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TasksModule } from './modules/tasks/tasks.module';
 import { PrismaService } from './prisma/prisma.service';
 
 @Module({
-  imports: [],
+  imports: [TasksModule],
   providers: [PrismaService],
-  exports: [PrismaService], // 👈 если будешь использовать в других модулях
 })
 export class AppModule {}
