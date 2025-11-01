@@ -8,7 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   UseGuards,
-  Req,
+  Request,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -21,13 +21,15 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  findAll(@Req() req) {
+  findAll(@Request() req) {
     return this.tasksService.findAllByUser(req.user.userId);
   }
 
   @Post()
-  create(@Body() dto: CreateTaskDto) {
-    return this.tasksService.create(dto);
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createTaskDto: CreateTaskDto, @Request() req) {
+    const userId = req.user.userId;
+    return this.tasksService.create(createTaskDto, userId);
   }
 
   @Get(':id')

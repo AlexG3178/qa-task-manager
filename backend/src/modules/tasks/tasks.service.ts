@@ -7,9 +7,16 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 export class TasksService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: CreateTaskDto) {
+  async create(data: CreateTaskDto, userId: number) {
     console.log('📦 DATA RECEIVED', data);
-    return this.prisma.task.create({ data });
+  
+    return this.prisma.task.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        userId: userId,
+      },
+    });
   }
 
   findAll() {

@@ -1,9 +1,13 @@
-import { Module } from '@nestjs/common';
-import { TasksModule } from './modules/tasks/tasks.module';
-import { PrismaService } from './prisma/prisma.service';
+import { Module } from '@nestjs/common'; 
+import { TasksModule } from './modules/tasks/tasks.module'; 
+import { PrismaService } from './prisma/prisma.service'; 
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TasksModule],
+  imports: [
+    TasksModule,
+    AuthModule, // 👈 обязательно подключить
+  ],
   providers: [PrismaService],
 })
 export class AppModule {}
