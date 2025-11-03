@@ -13,7 +13,7 @@ import {
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { JwtAuthGuard } from '../../auth/jwt.guard'; // поправь путь если нужно
+import { JwtAuthGuard } from '../../auth/jwt.guard'; 
 
 @Controller('tasks')
 @UseGuards(JwtAuthGuard)

@@ -20,7 +20,6 @@ export default function RegisterPage() {
     });
 
     if (res.ok) {
-      // Затем логинимся автоматически
       const loginRes = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {

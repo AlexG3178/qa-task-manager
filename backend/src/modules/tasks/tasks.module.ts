@@ -4,7 +4,7 @@ import { TasksController } from './tasks.controller';
 import { PrismaModule } from '../../prisma/prisma.module'; // 👈
 
 @Module({
-  imports: [PrismaModule], // 👈 добавляем
+  imports: [PrismaModule], 
   controllers: [TasksController],
   providers: [TasksService],
 })

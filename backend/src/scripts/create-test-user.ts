@@ -5,7 +5,7 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       email: 'alex@example.com',
-      password: 'test1234' // хешировать не нужно для теста
+      password: 'test1234' 
     }
   });
   console.log('✅ Created user:', user);

@@ -80,7 +80,7 @@ const handleCreateTask = async (e: FormEvent) => {
   if (response.ok) {
     setTitle('');
     setDescription('');
-    fetchTasks(); // обновляем список
+    fetchTasks(); 
   } else {
     console.error('❌ Failed to create task');
   }

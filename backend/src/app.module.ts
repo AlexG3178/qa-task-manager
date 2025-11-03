@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TasksModule,
-    AuthModule, // 👈 обязательно подключить
+    AuthModule,
   ],
   providers: [PrismaService],
 })
