@@ -38,47 +38,47 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install root dependencies
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Generate Prisma client
+      - name: Copy CI .env file
+        run: cp backend/.env.ci backend/.env
+
+      - name: Generate Prisma Client
         run: pnpm exec prisma generate
         working-directory: backend
 
-      - name: Set up and start backend
+      - name: Apply Prisma Migrations
+        run: pnpm exec prisma migrate deploy
+        working-directory: backend
+
+      - name: Build and start backend
         run: |
-          cd backend
-          pnpm install
-          pnpm exec prisma generate
           pnpm run build
-          pnpm run prod &
+          pnpm run start:dev &
+        working-directory: backend
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/qa-task-manager
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/qa-task-manager
+          JWT_SECRET: super_secret_password
 
       - name: Wait for backend to start
         run: |
-          echo "Waiting for backend to be ready..."
+          echo "Waiting for backend..."
           for i in {1..20}; do
             if curl --silent http://localhost:3000/health > /dev/null; then
-              echo "✅ Backend is up!"
-              exit 0
+              echo "Backend is up!"
+              break
             fi
-            echo "⏳ Still waiting... ($i)"
+            echo "Still waiting... ($i)"
             sleep 3
           done
-          echo "❌ Backend failed to start in time."
-          exit 1
 
-      - name: Run Postman tests via Newman
+      - name: Run Postman tests
         run: |
           pnpm dlx newman run postman/task-manager-api.postman_collection.json \
             -e postman/task.manager_environment.json \
             --reporters cli,html \
             --reporter-html-export newman-report.html
-
-      - name: Install Newman + HTML reporter
-        run: |
-          pnpm add -g newman newman-reporter-html
 
       - name: Upload Newman HTML Report
         uses: actions/upload-artifact@v4
