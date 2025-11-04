@@ -41,13 +41,17 @@ jobs:
       - name: Install root dependencies
         run: pnpm install
 
+      - name: Generate Prisma client
+        run: pnpm exec prisma generate
+        working-directory: backend
+
       - name: Set up and start backend
         run: |
           cd backend
           pnpm install
           pnpm exec prisma generate
           pnpm run build
-          pnpm run start:dev &
+          pnpm run prod &
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/qa-task-manager
 
@@ -57,11 +61,13 @@ jobs:
           for i in {1..20}; do
             if curl --silent http://localhost:3000/health > /dev/null; then
               echo "✅ Backend is up!"
-              break
+              exit 0
             fi
             echo "⏳ Still waiting... ($i)"
             sleep 3
           done
+          echo "❌ Backend failed to start in time."
+          exit 1
 
       - name: Run Postman tests via Newman
         run: |
@@ -69,6 +75,10 @@ jobs:
             -e postman/task.manager_environment.json \
             --reporters cli,html \
             --reporter-html-export newman-report.html
+
+      - name: Install Newman + HTML reporter
+        run: |
+          pnpm add -g newman newman-reporter-html
 
       - name: Upload Newman HTML Report
         uses: actions/upload-artifact@v4
