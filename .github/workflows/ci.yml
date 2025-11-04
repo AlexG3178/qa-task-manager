@@ -38,13 +38,14 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: pnpm install
 
-      - name: Start backend
+      - name: Set up and start backend
         run: |
           cd backend
           pnpm install
+          pnpm exec prisma generate
           pnpm run build
           pnpm run start:dev &
         env:
@@ -52,17 +53,17 @@ jobs:
 
       - name: Wait for backend to start
         run: |
-          echo "Waiting for backend..."
+          echo "Waiting for backend to be ready..."
           for i in {1..20}; do
             if curl --silent http://localhost:3000/health > /dev/null; then
-              echo "Backend is up!"
+              echo "✅ Backend is up!"
               break
             fi
-            echo "Still waiting... ($i)"
+            echo "⏳ Still waiting... ($i)"
             sleep 3
           done
 
-      - name: Run Postman tests
+      - name: Run Postman tests via Newman
         run: |
           pnpm dlx newman run postman/task-manager-api.postman_collection.json \
             -e postman/task.manager_environment.json \
