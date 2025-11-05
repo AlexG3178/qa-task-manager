@@ -72,6 +72,9 @@ jobs:
             sleep 3
           done
 
+      - name: Install HTML reporter
+        run: pnpm add -w -D newman-reporter-html
+
       - name: Run Postman tests
         run: |
           pnpm dlx newman run postman/task-manager-api.postman_collection.json \
