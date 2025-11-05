@@ -1,6 +1,6 @@
 node_modules
 # Keep environment variables out of version control
-backend/.env
-backend/.env.ci
+#backend/.env
+#backend/.env.ci
 /generated/prisma
 .DS_Store
