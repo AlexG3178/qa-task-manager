@@ -45,7 +45,8 @@ jobs:
         run: cp apps/backend/.env.ci apps/backend/.env
 
       - name: Generate Prisma Client
-        run: pnpm --filter backend exec prisma generate
+        run: pnpm exec prisma generate
+        working-directory: apps/backend
 
       - name: Apply Prisma Migrations
         run: pnpm exec prisma migrate deploy
@@ -62,15 +63,17 @@ jobs:
 
       - name: Wait for backend to start
         run: |
-          echo "Waiting for backend..."
-          for i in {1..20}; do
+          echo "Waiting for backend to start..."
+          for i in {1..40}; do
             if curl --silent http://localhost:3000/health > /dev/null; then
-              echo "Backend is up!"
-              break
+              echo "✅ Backend is up!"
+              exit 0
             fi
-            echo "Still waiting... ($i)"
+            echo "⏳ Still waiting... ($i)"
             sleep 3
           done
+          echo "❌ Backend did not start in time."
+          exit 1
 
       - name: Install HTML reporter
         run: pnpm add -w -D newman-reporter-html
