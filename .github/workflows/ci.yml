@@ -52,15 +52,13 @@ jobs:
         run: pnpm exec prisma migrate deploy
         working-directory: apps/backend
 
-      - name: Build backend
-        run: pnpm run build
-        working-directory: apps/backend
-
-      - name: Start backend
+      - name: Build and start backend
         run: |
-          node dist/main &
-          echo "⏳ Waiting 5s for backend to start..."
+          pnpm run build
+          nohup node dist/main.js > backend.log 2>&1 &
+          echo "⏳ Waiting 5s for backend to boot..."
           sleep 5
+          head -n 20 backend.log || echo "⚠️ No output in backend.log"
         working-directory: apps/backend
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/qa-task-manager
@@ -78,14 +76,17 @@ jobs:
             sleep 3
           done
           echo "❌ Backend did not start in time."
+          echo "🔍 Backend logs:"
+          cat apps/backend/backend.log || echo "⚠️ No backend.log found"
           exit 1
 
-      - name: Install newman and HTML reporter
-        run: pnpm add -w -D newman newman-reporter-html
+      - name: Install HTML reporter
+        run: pnpm dlx pnpm add -D newman-reporter-html
+        working-directory: apps/backend
 
       - name: Run Postman tests
         run: |
-          pnpm newman run postman/task-manager-api.postman_collection.json \
+          pnpm dlx newman run postman/task-manager-api.postman_collection.json \
             -e postman/task.manager_environment.json \
             --reporters cli,html \
             --reporter-html-export newman-report.html
