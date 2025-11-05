@@ -56,6 +56,10 @@ jobs:
         run: |
           pnpm run build
           pnpm run start:dev &
+          echo "⏳ Waiting 5s for backend to start..."
+          sleep 5
+          ps aux | grep node
+          lsof -i :3000 || echo "❌ Nothing running on port 3000"
         working-directory: apps/backend
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/qa-task-manager
@@ -76,8 +80,7 @@ jobs:
           exit 1
 
       - name: Install HTML reporter
-        run: pnpm dlx pnpm add -D newman-reporter-html
-        working-directory: apps/backend
+        run: pnpm add -w -D newman-reporter-html
 
       - name: Run Postman tests
         run: |
