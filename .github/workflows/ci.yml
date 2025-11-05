@@ -76,7 +76,8 @@ jobs:
           exit 1
 
       - name: Install HTML reporter
-        run: pnpm add -w -D newman-reporter-html
+        run: pnpm dlx pnpm add -D newman-reporter-html
+        working-directory: apps/backend
 
       - name: Run Postman tests
         run: |
