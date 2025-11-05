@@ -42,21 +42,20 @@ jobs:
         run: pnpm install
 
       - name: Copy CI .env file
-        run: cp backend/.env.ci backend/.env
+        run: cp apps/backend/.env.ci apps/backend/.env
 
       - name: Generate Prisma Client
-        run: pnpm exec prisma generate
-        working-directory: backend
+        run: pnpm --filter backend exec prisma generate
 
       - name: Apply Prisma Migrations
         run: pnpm exec prisma migrate deploy
-        working-directory: backend
+        working-directory: apps/backend
 
       - name: Build and start backend
         run: |
           pnpm run build
           pnpm run start:dev &
-        working-directory: backend
+        working-directory: apps/backend
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/qa-task-manager
           JWT_SECRET: super_secret_password

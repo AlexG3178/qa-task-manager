@@ -1,45 +1,45 @@
 {
-	"id": "640efd10-f34e-4d0b-a1f9-6498e356ec04",
-	"name": "Task Manager",
-	"values": [
-		{
-			"key": "base_url",
-			"value": "http://localhost:3000",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "timestamp",
-			"value": "1762186214720",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "registered_email",
-			"value": "test1762186214720@example.com",
-			"type": "any",
-			"enabled": true
-		},
-		{
-			"key": "registered_password",
-			"value": "Test123!",
-			"type": "any",
-			"enabled": true
-		},
-		{
-			"key": "token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE5LCJlbWFpbCI6InRlc3QxNzYyMTg2MjE0NzIwQGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyMTg2MjE1LCJleHAiOjE3NjIxODk4MTV9.kBFLDJxedIVUlAXDH1UjXgMCg640txLolTZZ28GUIWs",
-			"type": "any",
-			"enabled": true
-		},
-		{
-			"key": "task_id",
-			"value": "19",
-			"type": "any",
-			"enabled": true
-		}
-	],
-	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2025-11-03T19:41:16.602Z",
-	"_postman_exported_using": "Postman/11.70.0"
+  "id": "qa-task-manager-ci",
+  "name": "Task Manager CI",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "timestamp",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "registered_email",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "registered_password",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "task_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2025-11-03T19:00:00.000Z",
+  "_postman_exported_using": "Postman/11.70.0"
 }
