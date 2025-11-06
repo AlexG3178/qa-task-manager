@@ -4,3 +4,4 @@ node_modules
 #backend/.env.ci
 /generated/prisma
 .DS_Store
+zHINTS.md
